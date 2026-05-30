@@ -3,6 +3,8 @@
 > **Documento vivo y ordenado.** Es la hoja de ruta paso a paso que el agente lee y
 > actualiza. El agente trabaja **un paso a la vez**, en orden, y marca el estado del
 > paso al terminar. No se salta pasos sin acordarlo con el humano.
+>
+> 🇬🇧 English version: [`sequences.en.md`](sequences.en.md) — keep both in sync.
 
 ## Cómo se usa este archivo
 

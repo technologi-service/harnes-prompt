@@ -4,6 +4,8 @@
 > Si una tarea exige romper una regla, primero se detiene y lo debate con el humano;
 > no se rompe la regla por iniciativa propia. Este documento describe el "cómo" técnico;
 > el "qué" y el "estado" viven en `doc/map.md`; el "orden de ejecución" en `doc/sequences.md`.
+>
+> 🇬🇧 English version: [`architecture.en.md`](architecture.en.md) — keep both in sync.
 
 ---
 
@@ -89,7 +91,7 @@ Reglas de dependencia entre paquetes:
 1. **Lint + format** obligatorios (ESLint + Prettier). El código se commitea formateado.
 2. **Validación de datos externos con Zod** (o equivalente) en los límites: formularios, respuestas de API, payloads de funciones.
 3. **Manejo de errores explícito.** No tragar errores en silencio; propagar o registrar con contexto.
-4. **Nombres en inglés en el código** (variables, funciones, tablas); documentación en español.
+4. **Nombres en inglés en el código** (variables, funciones, tablas); documentación en español + inglés.
 5. **Tests** para lógica de dominio en `packages/core` y para políticas RLS críticas.
 6. **Commits pequeños y descriptivos**, una intención por commit.
 

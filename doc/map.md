@@ -4,6 +4,8 @@
 > Si lo que está escrito aquí no coincide con el código real, el código manda y este
 > mapa debe corregirse en la misma tarea. Nunca se trabaja a ciegas: primero se lee
 > este mapa, luego se valida contra el repositorio, y solo entonces se toca código.
+>
+> 🇬🇧 English version: [`map.en.md`](map.en.md) — keep both in sync.
 
 - **Última actualización:** 2026-05-30
 - **Actualizado por:** Claude (commit inicial de estructura)
@@ -41,7 +43,7 @@ Layout previsto (a confirmar al crear el primer código):
 
 | Área | Estado | Notas |
 |------|--------|-------|
-| Documentación (`doc/`) | ✅ Hecho | `map.md`, `architecture.md`, `sequences.md` creados |
+| Documentación (`doc/`) | ✅ Hecho | `map.md`, `architecture.md`, `sequences.md` + espejos en inglés |
 | `CLAUDE.md` (reglas del agente) | ✅ Hecho | Metodología viva + flujo de ejecución |
 | Monorepo (workspaces) | ⬜ Pendiente | Sin `package.json` raíz todavía |
 | App web (Next.js) | ⬜ Pendiente | No iniciada |

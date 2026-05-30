@@ -2,7 +2,8 @@
 
 > Este archivo lo carga Claude Code automáticamente. Es **de cumplimiento obligatorio**.
 > Define cómo debe comportarse cualquier agente que trabaje en este repositorio.
-> El idioma de la documentación es **español**; el código va en inglés.
+> La documentación es **bilingüe (español + inglés)**; el código va en inglés.
+> Espejo en inglés: [`CLAUDE.en.md`](CLAUDE.en.md) — mantener ambos sincronizados.
 
 ## 📚 Documentos rectores (leer SIEMPRE antes de actuar)
 
@@ -27,6 +28,7 @@ El contexto se mantiene sincronizado y real **sin intervención manual**. Por ta
 2. **Al avanzar en el plan**, actualizar `doc/sequences.md`: marcar el paso (`✅`/`🟡`/`⛔`) y añadir pasos nuevos si surgieron.
 3. **El código manda sobre el documento.** Si al validar el estado real se detecta que `map.md` miente, se corrige `map.md` en la misma tarea (no se ignora).
 4. **Una tarea no está "hecha" si los documentos no quedaron sincronizados.** La actualización de docs es parte de la Definición de Hecho, no un extra opcional.
+5. **Sincronización bilingüe.** Todo cambio en un documento se aplica a sus dos versiones (`.md` español y `.en.md` inglés) en la misma tarea, para que nunca se desfasen.
 
 ---
 

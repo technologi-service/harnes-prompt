@@ -1,6 +1,6 @@
-# Producto — Contexto General
+# [Nombre del SaaS] — Contexto de Producto y Negocio
 
-<!-- 
+<!--
   Este archivo define QUÉ estamos construyendo y POR QUÉ.
   Es la fuente de verdad sobre el alcance del producto.
   Cualquier agente o humano que lea esto debe entender el negocio completo.
@@ -9,172 +9,147 @@
 
 ---
 
-## Visión
+## ¿Cuál es la Visión Estratégica?
 
-<!-- 
-  La visión describe el estado futuro que queremos alcanzar.
-  No es una feature list, es la dirección estratégica del producto.
+<!--
+  Responder con la siguiente estructura:
+  "Plataforma SaaS multi-tenant de [tipo de automatización] para [Sector Target]
+  que centraliza [Proceso Core] y conecta [Actor A] con [Actor B] en tiempo real
+  para eliminar [Fricción Principal]."
 -->
 
-Plataforma SaaS multi-tenant de logística e hiperlocalización que gestiona el inventario y despachos de comercios locales y cocinas delivery-only, conectando la oferta comercial con repartidores y clientes finales en tiempo real.
+> _Pendiente de definición._
 
 ---
 
-## Problema
+## ¿Qué Problemas Críticos del Mercado Resolvemos?
 
-<!-- 
-  El problema que resolvemos. Sin un problema claro, no hay producto.
-  Esto guía todas las decisiones de priorización.
+<!--
+  Describir cómo gestiona el cliente objetivo cada dolor hoy
+  y por qué esa forma actual es ineficiente o propensa a errores.
 -->
 
-Los comercios locales (restaurantes, dark kitchens, fruterías) **no tienen herramientas integradas** para gestionar inventario, pedidos y despachos. Hoy dependen de:
+El cliente objetivo padece ineficiencias críticas debido a:
 
-- **Múltiples plataformas desconectadas** — una app para pedidos, otra para inventario, otra para pagos
-- **WhatsApp manual** — pedidos por chat sin trazabilidad, propenso a errores
-- **Cero visibilidad en tiempo real** — no saben qué stock tienen, dónde está el repartidor, ni el estado real de cada pedido
-- **Sin datos para decidir** — no tienen métricas de su operación para optimizar
+- **[Dolor Operativo 1]** — ¿Cómo gestionan esto hoy y por qué es ineficiente o propenso a errores?
+- **[Dolor Operativo 2]** — ¿Qué falta de visibilidad o datos sufren en su día a día?
+- **[Dolor Operativo 3]** — ¿Por qué las soluciones actuales del mercado no les sirven o son muy caras/complejas?
 
-El resultado: pérdida de ventas, errores en pedidos, clientes frustrados y operaciones ineficientes.
+**Impacto en el negocio:** [Definir la consecuencia final: ej. pérdida de clientes, márgenes de ganancia reducidos, operaciones caóticas].
 
 ---
 
-## Propuesta de Valor
+## ¿Cuál es la Propuesta de Valor y Diferenciación?
 
-<!-- 
-  Qué ofrecemos que resuelve el problema.
-  Cada punto aquí debe mapear directamente a un dolor del comercio.
+<!--
+  Describir cada módulo funcional core:
+  qué valor entrega y cuál es su regla o diferenciador clave.
 -->
 
-Una sola plataforma que centraliza:
+El SaaS centraliza y automatiza la operación a través de los siguientes módulos:
 
-| Pilar | Descripción | Diferenciador |
-|-------|-------------|---------------|
-| **Inventario** | Gestión en tiempo real con transacciones atómicas | No hay sobre-venta: si el stock llega a 0, se bloquea automáticamente |
-| **Pedidos** | Multi-canal: app + WhatsApp + teléfono + Telegram | El comercio recibe todos los pedidos en un solo lugar sin importar el canal de origen |
-| **Despacho** | Tracking GPS + asignación inteligente de repartidores | El cliente ve en mapa dónde está su pedido; el comercio sabe quién lleva qué |
-| **Pagos** | Efectivo + transferencia + tarjeta | Flexibilidad total para el cliente final, conciliación simple para el comercio |
+| Pilar de la Solución | ¿Qué valor entrega al cliente? | ¿Cuál es la regla / diferenciador clave? |
+|----------------------|-------------------------------|------------------------------------------|
+| [Módulo Core 1] | [Ej: Control de stock en tiempo real] | [Ej: Bloqueo de venta automático si el inventario llega a cero] |
+| [Módulo Core 2] | [Ej: Consolidación de canales] | [Ej: Captura de flujos desde cualquier origen en un único panel] |
+| [Módulo Core 3] | [Ej: Logística Dinámica] | [Ej: Asignación automática al recurso disponible más cercano] |
 
 ---
 
-## Modelo de Negocio
+## ¿Cómo Funciona el Modelo de Negocio y Multi-Tenancy?
 
-<!-- 
-  Cómo monetizamos. Esto impacta directamente en la arquitectura
-  porque necesitamos medir uso por tenant para facturar.
-  1 tenant = 1 comercio = 1 suscripción.
+<!--
+  Definir qué representa un tenant, cómo se monetiza
+  y qué métricas controlan el acceso por tier de suscripción.
 -->
 
-**Estructura por tiers de volumen** — planes escalonados según el volumen de operaciones del comercio.
+**Definición de Tenant:** 1 Tenant = [Ej: Un comercio local con múltiples sucursales]. Los datos deben estar completamente aislados por entidad de negocio.
 
-- **1 tenant = 1 comercio** (aislamiento total de datos vía RLS)
-- Los planes se diferencian por: cantidad de pedidos/mes, cantidad de productos, cantidad de staff, acceso a funcionalidades avanzadas (reportes, integraciones)
-- Modelo de ingresos recurrentes (SaaS mensual)
+**Estructura de Monetización:** Suscripción mensual/anual basada en la intensidad de uso.
 
-> **Nota:** Los tiers exactos y precios se definirán en la fase de validación comercial. La arquitectura debe soportar medición de uso por tenant desde el día 1.
+**Métricas de Control para Tiers** (el sistema controlará y limitará acceso según estas métricas):
+
+- **[Métrica 1]:** [Ej: Volumen de transacciones/pedidos permitidos al mes]
+- **[Métrica 2]:** [Ej: Límite de registros activos (productos, usuarios, clientes)]
+- **[Métrica 3]:** [Ej: Acceso a módulos avanzados o analíticas]
 
 ---
 
-## Comercios Objetivo
+## ¿Quiénes son los Usuarios y Clientes Objetivo (ICP)?
 
-<!-- 
-  A quién le vendemos. Esto define las funcionalidades que priorizamos.
-  Prioridad alta = MVP debe servirles desde el día 1.
+<!--
+  Describir cada segmento: perfil operativo, volumen de uso
+  y justificación de por qué validar con ellos primero.
 -->
 
 ### Prioridad Alta (MVP)
 
-| Tipo de Comercio | Características | Por qué son prioridad |
-|------------------|-----------------|----------------------|
-| **Restaurantes y cocinas delivery-only (dark kitchens)** | Alto volumen de pedidos, menú con variantes, tiempos de preparación críticos | Mayor dolor con la gestión manual, dispuestos a pagar por eficiencia |
-| **Fruterías y comercios de alimentos frescos** | Inventario perecedero, stock variable, pedidos frecuentes | Necesitan control de inventario estricto, mercado desatendido por apps grandes |
+| Segmento de Cliente | Perfil Operativo y Volumen | ¿Por qué validar con ellos primero? |
+|---------------------|---------------------------|--------------------------------------|
+| [Perfil Target 1] | [Ej: Operaciones de alto flujo con catálogos dinámicos] | [Ej: Mayor disposición a pagar por optimizar tiempos] |
+| [Perfil Target 2] | [Ej: Comercios con stock perecedero o variable] | [Ej: Requieren automatización estricta de inventarios] |
 
-### Futuro (post-MVP)
+### Fases Posteriores (Post-MVP)
 
-- Panaderías y reposterías
-- Tiendas de conveniencia / minimarkets
-- Farmacias locales
-- Otros comercios con despacho local
+- [Segmento Secundario 1]
+- [Segmento Secundario 2]
 
 ---
 
-## Zona de Lanzamiento
+## ¿Cuál es el Alcance Funcional del MVP?
 
-<!-- 
-  Dónde lanzamos primero. La hiperlocalización es clave:
-  necesitamos densidad de comercios y repartidores en una zona acotada.
--->
-
-Ciudad/zona específica con comercios ya identificados. El lanzamiento se hará en una zona geográfica delimitada para garantizar:
-
-1. **Densidad de oferta** — suficientes comercios para que el cliente encuentre opciones
-2. **Densidad de repartidores** — tiempos de entrega competitivos
-3. **Validación rápida** — feedback directo de comercios conocidos
-4. **Operación controlada** — resolver problemas antes de escalar
-
----
-
-## Funcionalidades MVP
-
-<!-- 
-  Las 10 funcionalidades que DEBEN estar en la primera versión.
-  Cada una tiene un número para referencia en otros documentos.
+<!--
+  Listar únicamente las features que DEBEN estar en la primera versión.
+  Para cada una: qué regla de negocio automatiza y quién es el actor principal.
   Si una funcionalidad no está aquí, NO entra en el MVP.
 -->
 
-| # | Funcionalidad | Descripción | Actor Principal |
-|---|---------------|-------------|-----------------|
-| 1 | **Gestión de inventario en tiempo real** | Transacciones atómicas para evitar sobre-venta. Stock se actualiza en cada pedido confirmado. | Admin Cocina, Staff |
-| 2 | **Catálogo de productos** | Categorías, variantes (tamaño, extras), imágenes, precios. Cada tenant tiene su propio catálogo. | Admin Cocina |
-| 3 | **Flujo de pedidos multi-canal** | Pedidos desde la app directa del cliente + carga manual por Staff (para pedidos de WhatsApp/teléfono). | Customer, Staff |
-| 4 | **Estados de pedido** | Flujo lineal: `pending` → `confirmed` → `preparing` → `ready` → `picked_up` → `delivered`. Cada transición genera evento en tiempo real. | Todos |
-| 5 | **Asignación de repartidores** | Estilo Uber: cuando el pedido está `ready`, se notifica a repartidores cercanos. El primero en aceptar se lo lleva. | Delivery |
-| 6 | **Modelo mixto de repartidores** | El comercio puede usar sus propios repartidores O repartidores de la plataforma. Configurable por tenant. | Admin Cocina |
-| 7 | **Tracking GPS en tiempo real** | El cliente ve la ubicación del repartidor en mapa desde `picked_up` hasta `delivered`. | Customer, Delivery |
-| 8 | **Pagos multi-método** | Efectivo, transferencia bancaria, tarjeta. El método se selecciona al crear el pedido. | Customer |
-| 9 | **Dashboard web** | Panel de administración para comercios: gestión de productos, pedidos, staff, reportes básicos. | Admin Cocina, Staff |
-| 10 | **App móvil** | App para clientes (buscar, pedir, pagar, seguir) y repartidores (aceptar, navegar, entregar). | Customer, Delivery |
+| # | Funcionalidad Core | ¿Qué regla de negocio automatiza o resuelve? | Actor Principal |
+|---|--------------------|----------------------------------------------|-----------------|
+| 1 | [Feature 1] | [Descripción de la regla lógica o flujo de datos esperado] | [Rol de Usuario] |
+| 2 | [Feature 2] | [Descripción de la regla lógica o flujo de datos esperado] | [Rol de Usuario] |
+| 3 | [Feature 3] | [Descripción de la regla lógica o flujo de datos esperado] | [Rol de Usuario] |
+| 4 | [Feature 4] | [Descripción de la regla lógica o flujo de datos esperado] | [Rol de Usuario] |
+| 5 | [Feature 5] | [Descripción de la regla lógica o flujo de datos esperado] | [Rol de Usuario] |
 
 ---
 
-## Funcionalidades Post-MVP
+## ¿Qué Funcionalidades Quedan Excluidas del MVP?
 
-<!-- 
-  Funcionalidades que queremos pero NO bloquean el lanzamiento.
-  Se priorizarán según feedback de usuarios reales.
-  No invertir tiempo de arquitectura en esto hasta que toque.
+<!--
+  Listar features descartadas del MVP con su impacto futuro y prioridad.
+  Esto evita scope creep y da claridad al equipo sobre qué no construir ahora.
 -->
 
-| Funcionalidad | Descripción | Prioridad Estimada |
-|---------------|-------------|-------------------|
-| **Integración Telegram API** | Pedidos directamente desde chat de Telegram, parseados automáticamente | Media |
-| **Dashboard de reportes y métricas** | Ventas por periodo, productos más vendidos, tiempos de entrega, rendimiento de repartidores | Alta |
-| **Panel super-admin** | Monitoreo global de todos los tenants, salud de la plataforma, métricas de negocio SaaS | Alta |
-| **Onboarding automatizado** | Registro self-service de nuevos comercios, configuración guiada, primer catálogo | Media |
-| **Ratings y reseñas** | Clientes califican pedidos y repartidores, comercios ven su puntuación | Media |
-| **Chat in-app** | Comunicación directa entre cliente ↔ comercio y cliente ↔ repartidor | Baja |
+| Funcionalidad Excluida | Impacto a Futuro | Prioridad de Negocio |
+|------------------------|------------------|----------------------|
+| [Feature Post-MVP 1] | [Ej: Integración con APIs de mensajería externa de terceros] | Alta / Media / Baja |
+| [Feature Post-MVP 2] | [Ej: Módulos avanzados de predicción de la demanda] | Alta / Media / Baja |
 
 ---
 
-## Plataformas
+## ¿Cuáles son los Contextos de Uso y Canales?
 
-<!-- 
-  Qué interfaces construimos y para quién.
-  Esto define la estructura del monorepo (apps/web y apps/mobile).
+<!--
+  Definir qué interfaces existen, para qué rol y bajo qué contexto de uso.
+  La separación web/móvil se basa en el contexto: operación fija vs. en movimiento.
 -->
 
-### Web (Next.js — Dashboard)
+### Interfaces de Operación Fija (Escritorio / Tablets)
 
-| Actor | Acceso |
-|-------|--------|
-| Super Admin | Gestión global de la plataforma |
-| Admin Cocina | Gestión de su comercio (productos, pedidos, staff, config) |
-| Staff | Operación diaria (pedidos, stock) |
+Diseñadas para gestión de alto volumen de datos, configuraciones, reportes y supervisión administrativa.
 
-### Móvil (Expo — App nativa iOS + Android)
+| Rol | Función Principal |
+|-----|-------------------|
+| [Rol Administrador Global] | Monitoreo del ecosistema SaaS, control de Tenants y facturación |
+| [Rol Administrador del Tenant] | Configuración de reglas de negocio, catálogos, control de personal y analíticas de su comercio |
+| [Rol Operador / Staff] | Gestión operativa rápida en estaciones fijas de trabajo (recepción y procesamiento) |
 
-| Actor | Acceso |
-|-------|--------|
-| Delivery | Aceptar pedidos, navegar, confirmar entregas |
-| Customer | Buscar comercios, pedir, pagar, seguir en mapa |
+### Interfaces de Operación en Movimiento (Smartphones / Dispositivos de Mano)
 
-> **Nota:** La decisión de separar web vs móvil por actor se basa en el contexto de uso: los operadores del comercio trabajan desde un puesto fijo (computador/tablet), mientras que repartidores y clientes están en movimiento.
+Diseñadas para flujos dinámicos, cargas ultrarrápidas, interfaces simplificadas y dependencia de hardware móvil (GPS, notificaciones, cámara).
+
+| Rol | Función Principal |
+|-----|-------------------|
+| [Rol Operador en Calle / Logística] | Gestión de tareas en ruta, actualizaciones de estado sobre la marcha y confirmaciones de entrega |
+| [Rol Usuario Final / Cliente] | Consulta de la oferta del Tenant, auto-gestión de solicitudes, pagos y seguimiento en tiempo real |

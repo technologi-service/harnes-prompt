@@ -4,15 +4,34 @@
 > is the root `CLAUDE.md` (Spanish, canonical). Keep both versions in sync.
 > Documentation language is **Spanish + English**; code is in English.
 
+## 🗂️ Repository structure
+
+```
+CLAUDE.md / CLAUDE.en.md   → this contract (canonical: Spanish)
+context/   → STABLE context in small pieces (product, users, stack) [Spanish]
+agents/    → agent roles (architect, backend, web, mobile, reviewer) [Spanish]
+skills/    → reusable procedures (validar-estado, actualizar-mapa, ...) [Spanish]
+outputs/   → agent-generated results
+doc/       → LIVING bilingual docs (map, architecture, sequences)
+apps/ packages/ supabase/  → the app code (created from Sprint 2 on)
+```
+
 ## 📚 Governing documents (ALWAYS read before acting)
 
 | File | Purpose |
 |------|---------|
 | `doc/map.md` / `doc/map.en.md` | Real project state: what exists, dependencies, done/pending features, data model. |
 | `doc/architecture.md` / `doc/architecture.en.md` | **Strict, binding** technical rules (Next.js, Expo, Supabase, RLS, quality). |
-| `doc/sequences.md` / `doc/sequences.en.md` | Sequencer: the step-by-step execution order. |
+| `doc/sequences.md` / `doc/sequences.en.md` | Scrum sequencer: the prompt-by-prompt sprints. |
 
 These three documents + `CLAUDE.md` are the single source of process truth.
+
+## 🎯 Loading context without overwhelming
+
+- Knowledge is split into small, focused files. **Load only what you need** for the task, not everything.
+- Minimum per task: `CLAUDE.md` + `doc/map.md` + the current sprint in `doc/sequences.md`.
+- Add as needed: the relevant `context/*`, the acting `agents/<role>.md`, and the `skills/*` it uses.
+- `architecture.md` is consulted by **sections** (those that apply to the sprint), not always in full.
 
 ---
 
@@ -33,9 +52,10 @@ Context stays synchronized and real **without manual intervention**. Therefore:
 
 ## ▶️ Agent Execution Flow (anti-hallucination)
 
-Before touching source code, ALWAYS in this order:
+> Each prompt arrives with the sprint template (see `doc/sequences.md`), starting with the
+> **CURRENT STATE**. Before touching source code, ALWAYS in this order:
 
-1. **READ** `doc/map.md`, `doc/architecture.md` and `doc/sequences.md`.
+1. **READ** `doc/map.md`, the current sprint in `doc/sequences.md` and the applicable sections of `doc/architecture.md` (+ the relevant `context/`). This is the `skills/validar-estado.md` skill.
 2. **VALIDATE against the real repo** what the map claims:
    - Check that files/folders/dependencies actually exist (list, read, search).
    - If the map and reality disagree → fix the map first.
@@ -44,7 +64,7 @@ Before touching source code, ALWAYS in this order:
 4. **CONFIRM applicable rules** from `architecture.md` for that step.
 5. **EXECUTE** only that step, with small focused changes.
 6. **VERIFY** (lint/tests/run as applicable). Do not claim success without evidence.
-7. **UPDATE** `doc/map.md` and `doc/sequences.md` (Living Methodology, both languages).
+7. **UPDATE** `doc/map.md` and `doc/sequences.md` (Living Methodology → `skills/actualizar-mapa.md`, both languages).
 8. **COMMIT** descriptively. (Push only when the human asks or the task explicitly requires it.)
 
 > Golden rule: **do not hallucinate state**. If it was not verified in the repo, it is not asserted.

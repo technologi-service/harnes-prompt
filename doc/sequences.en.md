@@ -1,87 +1,110 @@
-# 🧭 Prompt Sequencer
+# 🧭 Prompt Sequencer (Scrum by iterations)
 
-> **Living, ordered document.** This is the step-by-step roadmap the agent reads and
-> updates. The agent works **one step at a time**, in order, and marks the step status
-> when done. Steps are not skipped without agreeing it with the human.
+> **Living, ordered document.** The app is built **prompt by prompt**, like scrum sprints:
+> each sprint is a prompt that starts from the **current state** and delivers a small,
+> verifiable increment. The agent works **one sprint at a time**, in order, and marks its
+> status when done. Sprints are not skipped without agreeing it with the human.
 >
 > 🇪🇸 Versión en español: [`sequences.md`](sequences.md) — keep both in sync.
 
-## How to use this file
+---
 
-1. The agent opens `sequences.en.md` and finds the **first incomplete step** (`⬜` or `🟡`).
-2. Reads its "Goal", "Definition of done" and "Applicable rules".
-3. Validates the real repo state (see `CLAUDE.md` → Execution Flow).
-4. Executes **only that step**.
-5. Marks the step `✅`, updates `doc/map.md` and, if needed, adds the next steps.
+## 🧩 Methodology (how each prompt is given)
 
-States: ⬜ Pending · 🟡 In progress · ✅ Done · ⛔ Blocked (with reason)
+Every prompt/sprint **always** follows this template. State comes first:
+
+```
+## CURRENT STATE
+(what is done today, copied/summarized from doc/map.md)
+
+## SPRINT GOAL
+(the concrete increment I want in this iteration)
+
+## ROLE(S) AND SKILLS
+(agents/* and skills/* to use)
+
+## APPLICABLE RULES
+(sections of doc/architecture.md that apply)
+
+## DEFINITION OF DONE
+(how we know it finished, verifiable)
+```
+
+On receiving it, the agent runs the `CLAUDE.md` flow:
+**validate state → run sprint → verify → update map → commit.**
+
+Sprint states: ⬜ Pending · 🟡 In progress · ✅ Done · ⛔ Blocked (with reason)
 
 ---
 
-## Step 0 — Living documentation structure
+## Sprint 0 — Seed: agent logic and living structure
 - **Status:** ✅ Done (2026-05-30)
-- **Goal:** Create `doc/map.md`, `doc/architecture.md`, `doc/sequences.md` and `CLAUDE.md` (+ English mirrors).
-- **Definition of done:** The files exist, are mutually consistent, and `README.md` links to `doc/`.
+- **Goal:** Lay the "mold": `CLAUDE.md` (+ English), `doc/` (bilingual map/architecture/sequences)
+  and the agentic structure `context/ agents/ skills/ outputs/`.
+- **Roles/Skills:** Architect · `validar-estado`, `actualizar-mapa`.
+- **Definition of done:** Structure created, consistent and synced; `README` links everything.
+
+---
+
+## Sprint 1 — Define the product
+- **Status:** ⬜ Pending
+- **Goal:** Fill `context/producto.md` and `context/usuarios.md`: what the app is, for whom,
+  MVP, scope and platforms (web/mobile and priority).
+- **Roles/Skills:** Architect · `validar-estado`, `actualizar-mapa`.
 - **Applicable rules:** —
+- **Definition of done:**
+  - `producto.md` and `usuarios.md` marked ✅.
+  - `doc/map.md` §1/§3 reflects the product and MVP.
+- **Note:** until this sprint closes, the agent does NOT invent the product.
 
 ---
 
-## Step 1 — Initialize the monorepo
+## Sprint 2 — Initialize the monorepo
 - **Status:** ⬜ Pending
-- **Goal:** Root `package.json` with workspaces, strict TypeScript, ESLint + Prettier and the `apps/` + `packages/` structure.
-- **Definition of done:**
-  - A base `tsconfig.json` with `strict: true` exists.
-  - Lint and format run without error on an empty project.
-  - `doc/map.md` reflects the chosen package manager.
+- **Goal:** Root `package.json` with workspaces, strict TypeScript, ESLint + Prettier and the
+  `apps/` + `packages/` structure.
+- **Roles/Skills:** Architect + Reviewer · `validar-estado`, `actualizar-mapa`.
 - **Applicable rules:** `architecture.md` §1, §5.
-- **Required prior decision:** package manager (pnpm/npm/bun).
+- **Prior decision:** package manager (pnpm/npm/bun) → set in `context/stack.md`.
+- **Definition of done:** `tsconfig` with `strict:true`; lint/format run clean; `stack.md` and `map.md` updated.
 
 ---
 
-## Step 2 — Initialize Supabase (base schema + RLS)
+## Sprint 3 — Supabase: base schema + RLS
 - **Status:** ⬜ Pending
-- **Goal:** Local Supabase project (CLI), first migration with base table(s) and RLS enabled, types generated in `packages/supabase`.
-- **Definition of done:**
-  - `supabase/migrations` contains the initial migration.
-  - Every table has RLS + per-operation policies.
-  - TypeScript types generated and committed.
-  - `doc/map.md` §5 (data model) updated.
+- **Goal:** Supabase project, first migration with base table(s), RLS enabled and types generated.
+- **Roles/Skills:** Backend Supabase + Reviewer · `migracion-supabase`, `validar-estado`, `actualizar-mapa`.
 - **Applicable rules:** `architecture.md` §4 in full.
+- **Definition of done:** initial migration in `supabase/migrations`; RLS + per-operation policies; types in `packages/supabase`; `map.md` §5 updated.
 
 ---
 
-## Step 3 — Web app (Next.js) connected to Supabase
+## Sprint 4 — Web app (Next.js)
 - **Status:** ⬜ Pending
 - **Goal:** `apps/web` with App Router, server/browser Supabase client from `packages/supabase`, env validation.
-- **Definition of done:**
-  - Runs locally and reads data respecting RLS (`anon` only on the client).
-  - No secrets in the client bundle.
-  - `doc/map.md` updated (feature + dependencies).
+- **Roles/Skills:** Frontend Web + Reviewer · `nueva-feature`, `validar-estado`, `actualizar-mapa`.
 - **Applicable rules:** `architecture.md` §2, §4.1.
+- **Definition of done:** runs locally and reads data respecting RLS; no secrets on the client; `map.md` updated.
 
 ---
 
-## Step 4 — Mobile app (Expo) connected to Supabase
+## Sprint 5 — Mobile app (Expo)
 - **Status:** ⬜ Pending
-- **Goal:** `apps/mobile` with Expo Router and a Supabase client with secure session storage.
-- **Definition of done:**
-  - Runs locally and authenticates/reads respecting RLS.
-  - Reuses domain from `packages/core`.
-  - `doc/map.md` updated.
+- **Goal:** `apps/mobile` with Expo Router and a Supabase client with secure session.
+- **Roles/Skills:** Mobile Expo + Reviewer · `nueva-feature`, `validar-estado`, `actualizar-mapa`.
 - **Applicable rules:** `architecture.md` §3, §4.1.
+- **Definition of done:** runs locally and reads/authenticates respecting RLS; reuses `packages/core`; `map.md` updated.
 
 ---
 
-## Step 5 — Shared authentication (web + mobile)
+## Sprint 6 — Shared authentication (web + mobile)
 - **Status:** ⬜ Pending
-- **Goal:** Supabase auth flow working in both apps, with shared domain.
-- **Definition of done:**
-  - Login/logout/persistent session on web and mobile.
-  - RLS policies verified with a different user (isolation).
-  - `doc/map.md` updated.
+- **Goal:** Supabase auth flow in both apps, with shared domain.
+- **Roles/Skills:** Backend + Web + Mobile + Reviewer · `nueva-feature`, `validar-estado`, `actualizar-mapa`.
 - **Applicable rules:** `architecture.md` §2, §3, §4.3.
+- **Definition of done:** login/logout/persistent session on both; RLS isolation verified with another user; `map.md` updated.
 
 ---
 
-> Once these steps are complete, the agent adds the next ones here (product features)
-> following the same format, and keeps `doc/map.md` in sync.
+> From Sprint 6 onward, the next sprints are **product features** (outputs of Sprint 1).
+> The agent adds them here with the same template and keeps `doc/map.md` in sync.

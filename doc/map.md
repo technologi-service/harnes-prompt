@@ -22,19 +22,24 @@
 - **Backend:** Supabase (Postgres + Auth + Storage + Edge Functions)
 - **Lenguaje:** TypeScript estricto en todo el monorepo
 
-Layout previsto (a confirmar al crear el primer código):
+Layout (✅ = ya existe · ⬜ = se creará al construir la app):
 
 ```
 .
+├── CLAUDE.md          # ✅ Contrato del agente (canónico) + CLAUDE.en.md
+├── context/           # ✅ Contexto estable en piezas pequeñas (producto, usuarios, stack)
+├── agents/            # ✅ Roles del agente (arquitecto, backend, web, móvil, revisor)
+├── skills/            # ✅ Procedimientos reutilizables (validar-estado, migracion, ...)
+├── outputs/           # ✅ Resultados generados por el agente
+├── doc/               # ✅ Documentación viva bilingüe (map, architecture, sequences)
 ├── apps/
-│   ├── web/        # Next.js (App Router)
-│   └── mobile/     # Expo (Expo Router)
+│   ├── web/           # ⬜ Next.js (App Router)
+│   └── mobile/        # ⬜ Expo (Expo Router)
 ├── packages/
-│   ├── ui/         # Componentes compartidos
-│   ├── core/       # Lógica de dominio / tipos compartidos
-│   └── supabase/   # Cliente, tipos generados y data-access compartido
-├── supabase/       # Migraciones, seeds y config de Supabase CLI
-└── doc/            # Documentación viva (este directorio)
+│   ├── ui/            # ⬜ Componentes compartidos
+│   ├── core/          # ⬜ Lógica de dominio / tipos compartidos
+│   └── supabase/      # ⬜ Cliente, tipos generados y data-access compartido
+└── supabase/          # ⬜ Migraciones, seeds y config de Supabase CLI
 ```
 
 ---
@@ -45,6 +50,9 @@ Layout previsto (a confirmar al crear el primer código):
 |------|--------|-------|
 | Documentación (`doc/`) | ✅ Hecho | `map.md`, `architecture.md`, `sequences.md` + espejos en inglés |
 | `CLAUDE.md` (reglas del agente) | ✅ Hecho | Metodología viva + flujo de ejecución |
+| Estructura agéntica | ✅ Hecho | `context/`, `agents/`, `skills/`, `outputs/` (español) |
+| Secuenciador scrum | ✅ Hecho | Sprints prompt-a-prompt en `sequences.md` |
+| Producto definido | ⬜ Pendiente | Se define en Sprint 1 (`context/producto.md`) |
 | Monorepo (workspaces) | ⬜ Pendiente | Sin `package.json` raíz todavía |
 | App web (Next.js) | ⬜ Pendiente | No iniciada |
 | App móvil (Expo) | ⬜ Pendiente | No iniciada |
@@ -64,14 +72,15 @@ Leyenda: ✅ Hecho · 🟡 En progreso · ⬜ Pendiente · ⚠️ Con deuda/bloq
 ### En progreso
 - _Ninguna._
 
-### Pendientes (backlog)
-1. Inicializar el monorepo (workspaces + TypeScript + lint/format).
-2. Inicializar proyecto Supabase + primera migración + RLS base.
-3. Inicializar app web Next.js conectada a Supabase.
-4. Inicializar app móvil Expo conectada a Supabase.
-5. Flujo de autenticación compartido (web + móvil).
+### Pendientes (backlog → sprints)
+1. **Sprint 1:** Definir el producto (`context/producto.md`, `context/usuarios.md`).
+2. **Sprint 2:** Inicializar el monorepo (workspaces + TypeScript + lint/format).
+3. **Sprint 3:** Supabase + primera migración + RLS base.
+4. **Sprint 4:** App web Next.js conectada a Supabase.
+5. **Sprint 5:** App móvil Expo conectada a Supabase.
+6. **Sprint 6:** Flujo de autenticación compartido (web + móvil).
 
-> El orden y el detalle de ejecución vive en `doc/sequences.md`.
+> El orden y el detalle (formato scrum, prompt-a-prompt) vive en `doc/sequences.md`.
 
 ---
 
@@ -108,3 +117,4 @@ Leyenda: ✅ Hecho · 🟡 En progreso · ⬜ Pendiente · ⚠️ Con deuda/bloq
 | Fecha | Autor | Cambio |
 |-------|-------|--------|
 | 2026-05-30 | Claude | Creación de la estructura de documentación viva |
+| 2026-05-30 | Claude | Estructura agéntica (`context/agents/skills/outputs`) + secuenciador scrum prompt-a-prompt |

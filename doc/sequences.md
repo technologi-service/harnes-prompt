@@ -1,87 +1,110 @@
-# 🧭 Secuenciador de Prompts
+# 🧭 Secuenciador de Prompts (Scrum por iteraciones)
 
-> **Documento vivo y ordenado.** Es la hoja de ruta paso a paso que el agente lee y
-> actualiza. El agente trabaja **un paso a la vez**, en orden, y marca el estado del
-> paso al terminar. No se salta pasos sin acordarlo con el humano.
+> **Documento vivo y ordenado.** La app se construye **prompt a prompt**, como sprints de
+> scrum: cada sprint es un prompt que parte del **estado actual** y entrega un incremento
+> pequeño y verificable. El agente trabaja **un sprint a la vez**, en orden, y marca su
+> estado al terminar. No se saltan sprints sin acordarlo con el humano.
 >
 > 🇬🇧 English version: [`sequences.en.md`](sequences.en.md) — keep both in sync.
 
-## Cómo se usa este archivo
+---
 
-1. El agente abre `sequences.md` y busca el **primer paso no completado** (`⬜` o `🟡`).
-2. Lee el "Objetivo", la "Definición de hecho" y las "Reglas aplicables".
-3. Valida el estado real del repo (ver `CLAUDE.md` → Flujo de Ejecución).
-4. Ejecuta **solo ese paso**.
-5. Marca el paso como `✅`, actualiza `doc/map.md` y, si procede, añade los siguientes pasos.
+## 🧩 Metodología (cómo se da cada prompt)
 
-Estados: ⬜ Pendiente · 🟡 En progreso · ✅ Hecho · ⛔ Bloqueado (con motivo)
+Cada prompt/sprint sigue **siempre** esta plantilla. Lo primero es el estado:
+
+```
+## ESTADO ACTUAL
+(qué hay hecho hoy, copiado/resumido de doc/map.md)
+
+## OBJETIVO DE ESTE SPRINT
+(el incremento concreto que quiero en esta iteración)
+
+## ROL(ES) Y SKILLS
+(agents/* y skills/* que se usan)
+
+## REGLAS APLICABLES
+(secciones de doc/architecture.md que aplican)
+
+## DEFINICIÓN DE HECHO
+(cómo sabemos que terminó, verificable)
+```
+
+Y el agente, al recibirlo, ejecuta el flujo de `CLAUDE.md`:
+**validar estado → ejecutar sprint → verificar → actualizar mapa → commit.**
+
+Estados de sprint: ⬜ Pendiente · 🟡 En progreso · ✅ Hecho · ⛔ Bloqueado (con motivo)
 
 ---
 
-## Paso 0 — Estructura de documentación viva
+## Sprint 0 — Seed: lógica del agente y estructura viva
 - **Estado:** ✅ Hecho (2026-05-30)
-- **Objetivo:** Crear `doc/map.md`, `doc/architecture.md`, `doc/sequences.md` y `CLAUDE.md`.
-- **Definición de hecho:** Los cuatro archivos existen, son coherentes entre sí y `README.md` enlaza a `doc/`.
+- **Objetivo:** Dejar el "molde": `CLAUDE.md` (+ inglés), `doc/` (map/architecture/sequences
+  bilingües) y la estructura agéntica `context/ agents/ skills/ outputs/`.
+- **Roles/Skills:** Arquitecto · `validar-estado`, `actualizar-mapa`.
+- **Definición de Hecho:** Estructura creada, coherente y sincronizada; `README` enlaza todo.
+
+---
+
+## Sprint 1 — Definir el producto
+- **Estado:** ⬜ Pendiente
+- **Objetivo:** Rellenar `context/producto.md` y `context/usuarios.md`: qué app es, para quién,
+  MVP, alcance y plataformas (web/móvil y prioridad).
+- **Roles/Skills:** Arquitecto · `validar-estado`, `actualizar-mapa`.
 - **Reglas aplicables:** —
+- **Definición de Hecho:**
+  - `producto.md` y `usuarios.md` con estado ✅.
+  - `doc/map.md` §1/§3 refleja el producto y el MVP.
+- **Nota:** hasta cerrar este sprint, el agente NO inventa el producto.
 
 ---
 
-## Paso 1 — Inicializar el monorepo
+## Sprint 2 — Inicializar el monorepo
 - **Estado:** ⬜ Pendiente
-- **Objetivo:** `package.json` raíz con workspaces, TypeScript estricto, ESLint + Prettier y la estructura `apps/` + `packages/`.
-- **Definición de hecho:**
-  - Existe `tsconfig.json` base con `strict: true`.
-  - Lint y format corren sin error en un proyecto vacío.
-  - `doc/map.md` refleja el gestor de paquetes elegido.
+- **Objetivo:** `package.json` raíz con workspaces, TypeScript estricto, ESLint + Prettier y
+  estructura `apps/` + `packages/`.
+- **Roles/Skills:** Arquitecto + Revisor · `validar-estado`, `actualizar-mapa`.
 - **Reglas aplicables:** `architecture.md` §1, §5.
-- **Decisión previa requerida:** gestor de paquetes (pnpm/npm/bun).
+- **Decisión previa:** gestor de paquetes (pnpm/npm/bun) → fijar en `context/stack.md`.
+- **Definición de Hecho:** `tsconfig` con `strict:true`; lint/format corren sin error; `stack.md` y `map.md` actualizados.
 
 ---
 
-## Paso 2 — Inicializar Supabase (esquema base + RLS)
+## Sprint 3 — Supabase: esquema base + RLS
 - **Estado:** ⬜ Pendiente
-- **Objetivo:** Proyecto Supabase local (CLI), primera migración con la(s) tabla(s) base y RLS habilitado, tipos generados en `packages/supabase`.
-- **Definición de hecho:**
-  - `supabase/migrations` contiene la migración inicial.
-  - Toda tabla tiene RLS + políticas por operación.
-  - Tipos TypeScript generados y commiteados.
-  - `doc/map.md` §5 (modelo de datos) actualizado.
+- **Objetivo:** Proyecto Supabase, primera migración con tabla(s) base, RLS habilitado y tipos generados.
+- **Roles/Skills:** Backend Supabase + Revisor · `migracion-supabase`, `validar-estado`, `actualizar-mapa`.
 - **Reglas aplicables:** `architecture.md` §4 completo.
+- **Definición de Hecho:** migración inicial en `supabase/migrations`; RLS + políticas por operación; tipos en `packages/supabase`; `map.md` §5 actualizado.
 
 ---
 
-## Paso 3 — App web (Next.js) conectada a Supabase
+## Sprint 4 — App web (Next.js)
 - **Estado:** ⬜ Pendiente
 - **Objetivo:** `apps/web` con App Router, cliente Supabase server/browser desde `packages/supabase`, validación de env.
-- **Definición de hecho:**
-  - Arranca en local y lee datos respetando RLS (solo `anon` en cliente).
-  - Sin secretos en el bundle del cliente.
-  - `doc/map.md` actualizado (feature + dependencias).
+- **Roles/Skills:** Frontend Web + Revisor · `nueva-feature`, `validar-estado`, `actualizar-mapa`.
 - **Reglas aplicables:** `architecture.md` §2, §4.1.
+- **Definición de Hecho:** arranca en local y lee datos respetando RLS; sin secretos en cliente; `map.md` actualizado.
 
 ---
 
-## Paso 4 — App móvil (Expo) conectada a Supabase
+## Sprint 5 — App móvil (Expo)
 - **Estado:** ⬜ Pendiente
-- **Objetivo:** `apps/mobile` con Expo Router y cliente Supabase con almacenamiento seguro de sesión.
-- **Definición de hecho:**
-  - Arranca en local y autentica/lee respetando RLS.
-  - Reutiliza dominio desde `packages/core`.
-  - `doc/map.md` actualizado.
+- **Objetivo:** `apps/mobile` con Expo Router y cliente Supabase con sesión segura.
+- **Roles/Skills:** Móvil Expo + Revisor · `nueva-feature`, `validar-estado`, `actualizar-mapa`.
 - **Reglas aplicables:** `architecture.md` §3, §4.1.
+- **Definición de Hecho:** arranca en local y lee/autentica respetando RLS; reutiliza `packages/core`; `map.md` actualizado.
 
 ---
 
-## Paso 5 — Autenticación compartida (web + móvil)
+## Sprint 6 — Autenticación compartida (web + móvil)
 - **Estado:** ⬜ Pendiente
-- **Objetivo:** Flujo de auth de Supabase funcionando en ambas apps, con dominio compartido.
-- **Definición de hecho:**
-  - Login/logout/sesión persistente en web y móvil.
-  - Políticas RLS verificadas con un usuario distinto (aislamiento).
-  - `doc/map.md` actualizado.
+- **Objetivo:** Flujo de auth de Supabase en ambas apps, con dominio compartido.
+- **Roles/Skills:** Backend + Web + Móvil + Revisor · `nueva-feature`, `validar-estado`, `actualizar-mapa`.
 - **Reglas aplicables:** `architecture.md` §2, §3, §4.3.
+- **Definición de Hecho:** login/logout/sesión persistente en ambos; aislamiento RLS verificado con otro usuario; `map.md` actualizado.
 
 ---
 
-> Cuando se completen estos pasos, el agente añade aquí los siguientes (features de
-> producto) siguiendo el mismo formato, y mantiene `doc/map.md` sincronizado.
+> A partir del Sprint 6, los siguientes sprints son **features de producto** (salidas del
+> Sprint 1). El agente los añade aquí con la misma plantilla y mantiene `doc/map.md` en sync.

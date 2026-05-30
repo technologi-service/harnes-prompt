@@ -6,6 +6,18 @@ viva para agentes de IA. Documentación **bilingüe (español + inglés)**.
 A **Next.js + Expo + Supabase** project governed by a living-documentation methodology
 for AI agents. **Bilingual (Spanish + English)** documentation.
 
+## Estructura · Structure
+
+```
+CLAUDE.md          # Contrato del agente (canónico) + CLAUDE.en.md
+context/           # Contexto estable en piezas pequeñas (producto, usuarios, stack)
+agents/            # Roles del agente (arquitecto, backend, web, móvil, revisor)
+skills/            # Procedimientos reutilizables (validar-estado, migracion, ...)
+outputs/           # Resultados generados por el agente
+doc/               # Documentación viva bilingüe (map, architecture, sequences)
+apps/ packages/ supabase/   # Código de la app (se crea desde el Sprint 2)
+```
+
 ## Documentación rectora · Governing docs
 
 | 🇪🇸 Español | 🇬🇧 English | Qué es · What |
@@ -22,5 +34,5 @@ for AI agents. **Bilingual (Spanish + English)** documentation.
 
 1. Lee los documentos rectores · Read the governing documents.
 2. Valida el estado real del repo (anti-alucinación) antes de tocar código · Validate the real repo state before touching code.
-3. Ejecuta el siguiente paso del secuenciador · Execute the next sequencer step.
+3. Ejecuta el siguiente **sprint** del secuenciador (prompt-a-prompt, estilo scrum) · Execute the next sequencer **sprint** (prompt-by-prompt, scrum-style).
 4. Actualiza `map.md` y `sequences.md` (ambos idiomas) al terminar · Update the docs (both languages) when done.

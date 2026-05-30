@@ -22,20 +22,28 @@
 - **Backend:** Supabase (Postgres + Auth + Storage + Edge Functions)
 - **Language:** strict TypeScript across the monorepo
 
-Planned layout (to confirm when the first code is created):
+Layout (✅ = already exists · ⬜ = created when building the app):
 
 ```
 .
+├── CLAUDE.md          # ✅ Agent contract (canonical) + CLAUDE.en.md
+├── context/           # ✅ Stable context in small pieces (product, users, stack) [ES]
+├── agents/            # ✅ Agent roles (architect, backend, web, mobile, reviewer) [ES]
+├── skills/            # ✅ Reusable procedures (validate-state, migration, ...) [ES]
+├── outputs/           # ✅ Agent-generated results
+├── doc/               # ✅ Living bilingual docs (map, architecture, sequences)
 ├── apps/
-│   ├── web/        # Next.js (App Router)
-│   └── mobile/     # Expo (Expo Router)
+│   ├── web/           # ⬜ Next.js (App Router)
+│   └── mobile/        # ⬜ Expo (Expo Router)
 ├── packages/
-│   ├── ui/         # Shared components
-│   ├── core/       # Domain logic / shared types
-│   └── supabase/   # Client, generated types and shared data-access
-├── supabase/       # Migrations, seeds and Supabase CLI config
-└── doc/            # Living documentation (this directory)
+│   ├── ui/            # ⬜ Shared components
+│   ├── core/          # ⬜ Domain logic / shared types
+│   └── supabase/      # ⬜ Client, generated types and shared data-access
+└── supabase/          # ⬜ Migrations, seeds and Supabase CLI config
 ```
+
+> Note: `context/`, `agents/`, `skills/` are Spanish-only by decision; `doc/` and
+> `CLAUDE.md` are bilingual.
 
 ---
 
@@ -45,6 +53,9 @@ Planned layout (to confirm when the first code is created):
 |------|--------|-------|
 | Documentation (`doc/`) | ✅ Done | `map.md`, `architecture.md`, `sequences.md` + English mirrors |
 | `CLAUDE.md` (agent rules) | ✅ Done | Living methodology + execution flow |
+| Agentic structure | ✅ Done | `context/`, `agents/`, `skills/`, `outputs/` (Spanish) |
+| Scrum sequencer | ✅ Done | Prompt-by-prompt sprints in `sequences.md` |
+| Product defined | ⬜ Pending | Defined in Sprint 1 (`context/producto.md`) |
 | Monorepo (workspaces) | ⬜ Pending | No root `package.json` yet |
 | Web app (Next.js) | ⬜ Pending | Not started |
 | Mobile app (Expo) | ⬜ Pending | Not started |
@@ -64,14 +75,15 @@ Legend: ✅ Done · 🟡 In progress · ⬜ Pending · ⚠️ Debt/blocked
 ### In progress
 - _None._
 
-### Pending (backlog)
-1. Initialize the monorepo (workspaces + TypeScript + lint/format).
-2. Initialize Supabase project + first migration + base RLS.
-3. Initialize Next.js web app connected to Supabase.
-4. Initialize Expo mobile app connected to Supabase.
-5. Shared authentication flow (web + mobile).
+### Pending (backlog → sprints)
+1. **Sprint 1:** Define the product (`context/producto.md`, `context/usuarios.md`).
+2. **Sprint 2:** Initialize the monorepo (workspaces + TypeScript + lint/format).
+3. **Sprint 3:** Supabase + first migration + base RLS.
+4. **Sprint 4:** Next.js web app connected to Supabase.
+5. **Sprint 5:** Expo mobile app connected to Supabase.
+6. **Sprint 6:** Shared authentication flow (web + mobile).
 
-> The execution order and detail live in `doc/sequences.en.md`.
+> The execution order and detail (scrum, prompt-by-prompt) live in `doc/sequences.en.md`.
 
 ---
 
@@ -108,3 +120,4 @@ Legend: ✅ Done · 🟡 In progress · ⬜ Pending · ⚠️ Debt/blocked
 | Date | Author | Change |
 |------|--------|--------|
 | 2026-05-30 | Claude | Created the living documentation structure |
+| 2026-05-30 | Claude | Agentic structure (`context/agents/skills/outputs`) + prompt-by-prompt scrum sequencer |

@@ -5,15 +5,35 @@
 > La documentación es **bilingüe (español + inglés)**; el código va en inglés.
 > Espejo en inglés: [`CLAUDE.en.md`](CLAUDE.en.md) — mantener ambos sincronizados.
 
+## 🗂️ Estructura del repositorio
+
+```
+CLAUDE.md / CLAUDE.en.md   → este contrato (canónico: el español)
+context/   → contexto ESTABLE en piezas pequeñas (producto, usuarios, stack)
+agents/    → roles del agente (arquitecto, backend, web, móvil, revisor)
+skills/    → procedimientos reutilizables (validar-estado, actualizar-mapa, ...)
+outputs/   → resultados generados por el agente
+doc/       → documentación VIVA bilingüe (map, architecture, sequences)
+apps/ packages/ supabase/  → el código de la app (se crea a partir del Sprint 2)
+```
+
 ## 📚 Documentos rectores (leer SIEMPRE antes de actuar)
 
 | Archivo | Para qué |
 |---------|----------|
 | `doc/map.md` | Estado real del proyecto: qué existe, dependencias, features hechas/pendientes, modelo de datos. |
 | `doc/architecture.md` | Reglas técnicas **estrictas y vinculantes** (Next.js, Expo, Supabase, RLS, calidad). |
-| `doc/sequences.md` | Secuenciador: el orden paso a paso de ejecución. |
+| `doc/sequences.md` | Secuenciador scrum: los sprints prompt-a-prompt. |
 
 Estos tres documentos + este `CLAUDE.md` son la única fuente de verdad de proceso.
+
+## 🎯 Carga de contexto sin abrumarse
+
+- El conocimiento se reparte en archivos pequeños y enfocados. **Carga solo lo que necesitas**
+  para la tarea, no todo de golpe.
+- Mínimo en cada tarea: `CLAUDE.md` + `doc/map.md` + el sprint actual de `doc/sequences.md`.
+- Añade según el caso: el `context/*` relevante, el `agents/<rol>.md` que actúa y las `skills/*` que usa.
+- `architecture.md` se consulta por **secciones** (las que aplican al sprint), no entero siempre.
 
 ---
 
@@ -34,9 +54,10 @@ El contexto se mantiene sincronizado y real **sin intervención manual**. Por ta
 
 ## ▶️ Flujo de Ejecución del Agente (anti-alucinación)
 
-Antes de tocar el código fuente, SIEMPRE en este orden:
+> Cada prompt llega con la plantilla de sprint (ver `doc/sequences.md`), empezando por el
+> **ESTADO ACTUAL**. Antes de tocar el código fuente, SIEMPRE en este orden:
 
-1. **LEER** `doc/map.md`, `doc/architecture.md` y `doc/sequences.md`.
+1. **LEER** `doc/map.md`, el sprint actual de `doc/sequences.md` y las secciones aplicables de `doc/architecture.md` (+ el `context/` que toque). Esto es la skill `skills/validar-estado.md`.
 2. **VALIDAR contra el repo real** lo que el mapa afirma:
    - Comprobar que los archivos/carpetas/dependencias existen de verdad (listar, leer, buscar).
    - Si hay discrepancia entre `map.md` y la realidad → primero se corrige el mapa.
@@ -45,7 +66,7 @@ Antes de tocar el código fuente, SIEMPRE en este orden:
 4. **CONFIRMAR reglas aplicables** del `architecture.md` para ese paso.
 5. **EJECUTAR** solo ese paso, con cambios pequeños y enfocados.
 6. **VERIFICAR** (lint/tests/arranque según aplique). No declarar éxito sin evidencia.
-7. **ACTUALIZAR** `doc/map.md` y `doc/sequences.md` (Metodología Viva).
+7. **ACTUALIZAR** `doc/map.md` y `doc/sequences.md` (Metodología Viva → skill `skills/actualizar-mapa.md`).
 8. **COMMIT** descriptivo. (Hacer push solo cuando el humano lo pida o la tarea lo requiera explícitamente.)
 
 > Regla de oro: **no se alucina el estado**. Si no se ha verificado en el repo, no se afirma.
